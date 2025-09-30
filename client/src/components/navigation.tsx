@@ -1,17 +1,17 @@
-import { useLocation } from "wouter";
-import { useUser } from "@/contexts/user-context";
 import { Button } from "@/components/ui/button";
-import { 
-  Home, 
-  Target, 
-  Trophy, 
-  TrendingUp, 
-  User, 
+import { useUser } from "@/contexts/user-context";
+import { LanguageCode, speakText, t } from "@/lib/i18n";
+import {
   FileText,
+  Home,
   Sprout,
+  Target,
+  Trophy,
+  User,
   Volume2
 } from "lucide-react";
-import { t, speakText, LanguageCode } from "@/lib/i18n";
+import { useLocation } from "wouter";
+import krishiverseLogo from "../krishiverselogo.jpeg"; // Adjust path if needed
 
 export default function Navigation() {
   const [location, setLocation] = useLocation();
@@ -21,11 +21,14 @@ export default function Navigation() {
     return null;
   }
 
+  // NOTE: TrendingUp was replaced with Trophy for Leaderboard to match the final screenshot logic (Trophy is used in the desktopNavItems).
   const navItems = [
-    { path: "/dashboard", icon: Home, label: t("dashboard", language as LanguageCode) },
-    { path: "/quests", icon: Target, label: t("quests", language as LanguageCode) },
-    { path: "/leaderboard", icon: Trophy, label: t("community", language as LanguageCode) },
-    { path: "/market", icon: TrendingUp, label: t("market", language as LanguageCode) },
+    { path: "/dashboard", icon: Home, label: t("KrishiPlay", language as LanguageCode) },
+    { path: "/quests", icon: Target, label: t("KrishiGrow", language as LanguageCode) },
+    // Changed TrendingUp to Trophy/Leaderboard to match typical sidebar naming
+    { path: "/leaderboard", icon: Trophy, label: t("KrishiKnow", language as LanguageCode) }, 
+    { path: "/market", icon: Home, label: t("KrishiMart", language as LanguageCode) }, // Re-using Home icon as TrendingUp was not used in the desktop list
+    { path: "/krishima", icon: Sprout, label: t("KrishiMa", language as LanguageCode) }, 
     { path: "/profile", icon: User, label: t("profile", language as LanguageCode) },
   ];
 
@@ -66,29 +69,40 @@ export default function Navigation() {
         </div>
       </nav>
 
-      {/* Desktop Sidebar */}
-      <div className="hidden md:block fixed left-0 top-0 h-full w-64 bg-card border-r border-border z-50" data-testid="desktop-sidebar">
-        <div className="p-6">
-          <div className="flex items-center space-x-3 mb-8">
-            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-              <Sprout className="text-primary-foreground h-6 w-6" />
-            </div>
-            <div>
-              <h1 className="font-bold text-xl text-primary">KrishiGrow</h1>
-              <p className="text-xs text-muted-foreground">{t("sustainableFarming", language as LanguageCode)}</p>
-            </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => handleSpeak("KrishiGrow - Sustainable Farming Platform")}
-              className="ml-auto"
-              data-testid="speak-title"
-            >
-              <Volume2 className="h-4 w-4" />
-            </Button>
-          </div>
+      {/* Desktop Sidebar (Corrected Structure) */}
+      <div 
+        className="hidden md:block fixed left-0 top-0 h-full w-64 bg-card border-r border-border z-50" 
+        data-testid="desktop-sidebar"
+      >
+        <div className="p-4 flex flex-col h-full"> {/* Adjusted padding to p-4 for tighter fit */}
           
+          {/* Logo, Title, and Language Selector Group */}
           <div className="mb-6">
+            <div className="flex flex-col items-start space-y-1 mb-4"> {/* Adjusted logo area to match screenshot look */}
+                {/* Logo and Title */}
+                <div className="flex items-center space-x-2">
+                    <img src={krishiverseLogo} alt="Krishiverse Logo" className="h-8 w-auto" /> {/* Smaller logo */}
+                    <span className="text-xl font-bold text-primary">KrishiVerse</span> {/* Adjusted name/style */}
+                </div>
+                
+                {/* Subtitle and Speak Button */}
+                <div className="flex items-center justify-between w-full mt-1">
+                    <p className="text-xs text-muted-foreground">
+                        {t("sustainableFarming", language as LanguageCode)}
+                    </p>
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleSpeak("KrishiVerse - Sustainable Farming Platform")}
+                        className="p-1 h-auto"
+                        data-testid="speak-title"
+                    >
+                        <Volume2 className="h-4 w-4" />
+                    </Button>
+                </div>
+            </div>
+
+            {/* Language Selector */}
             <select
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
@@ -102,7 +116,8 @@ export default function Navigation() {
             </select>
           </div>
 
-          <nav className="space-y-2">
+          {/* Navigation Links */}
+          <nav className="space-y-1"> {/* Adjusted space-y to space-y-1 for closer links */}
             {desktopNavItems.map((item) => {
               const Icon = item.icon;
               const isActive = location === item.path;
@@ -111,7 +126,7 @@ export default function Navigation() {
                   key={item.path}
                   variant={isActive ? "secondary" : "ghost"}
                   onClick={() => setLocation(item.path)}
-                  className="w-full justify-start"
+                  className="w-full justify-start h-10" // Ensured consistent height
                   data-testid={`nav-${item.path.slice(1)}`}
                 >
                   <Icon className="mr-3 h-4 w-4" />

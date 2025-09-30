@@ -1,10 +1,10 @@
-import { useLocation } from "wouter";
-import { useUser } from "@/contexts/user-context";
 import { Button } from "@/components/ui/button";
-import { t, LanguageCode } from "@/lib/i18n";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Sprout } from "lucide-react";
+import { useUser } from "@/contexts/user-context";
+import { LanguageCode, t } from "@/lib/i18n";
 import { useEffect } from "react";
+import { useLocation } from "wouter";
+import krishiverseLogo from "../krishiverselogo.jpeg"; // Adjust path if needed
 
 export default function Welcome() {
   const [, setLocation] = useLocation();
@@ -21,7 +21,7 @@ export default function Welcome() {
     <div className="min-h-screen flex flex-col" data-testid="welcome-screen">
       {/* Language Selection Header */}
       <div className="bg-primary text-primary-foreground p-4 flex justify-between items-center">
-        <h1 className="text-xl font-bold" data-testid="app-title">KrishiGrow</h1>
+        <h1 className="text-xl font-bold" data-testid="app-title">KrishiVerse</h1>
         <Select value={language} onValueChange={setLanguage}>
           <SelectTrigger className="bg-primary-foreground text-primary w-24" data-testid="language-selector">
             <SelectValue />
@@ -47,13 +47,16 @@ export default function Welcome() {
             />
           </div>
         </div>
+<div className="mb-6" data-testid="main-icon">
+  <img
+    src={krishiverseLogo}
+    alt="KrishiVerse Logo"
+    className="w-24 h-24 shadow-lg animate-pulse-glow object-cover"
+  />
+</div>
         
-        <div className="w-16 h-16 bg-success rounded-full flex items-center justify-center mb-6 animate-pulse-glow" data-testid="main-icon">
-          <Sprout className="text-success-foreground h-8 w-8" />
-        </div>
-        
-        <h1 className="text-3xl font-bold text-primary mb-4" data-testid="welcome-title">
-          {t("welcome", language as LanguageCode)}
+        <h1 className="text-3xl font-bold text-primary mb-4">
+          {t("Welcome To KrishiVerse", language as LanguageCode)}
         </h1>
         <p className="text-lg text-muted-foreground mb-2">Grow Sustainably, Earn Rewards</p>
         <p className="text-muted-foreground mb-8 max-w-md">

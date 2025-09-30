@@ -14,6 +14,7 @@ import Leaderboard from "@/pages/leaderboard";
 import Schemes from "@/pages/schemes";
 import Market from "@/pages/market";
 import Profile from "@/pages/profile";
+import KrishiMa from "./pages/krishima";
 
 function Router() {
   return (
@@ -25,8 +26,12 @@ function Router() {
       <Route path="/leaderboard" component={Leaderboard} />
       <Route path="/schemes" component={Schemes} />
       <Route path="/market" component={Market} />
+
       <Route path="/profile" component={Profile} />
-      <Route component={NotFound} />
+      <Route path="/krishima" component={KrishiMa} />
+      
+
+    
     </Switch>
   );
 }
